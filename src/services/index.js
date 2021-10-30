@@ -3,3 +3,7 @@ module.exports.emailService = require('./email.service');
 module.exports.tokenService = require('./token.service');
 module.exports.userService = require('./user.service');
 module.exports.phuongService = require('./phuong.service');
+module.exports.blogService = require('./blog.service');
+module.exports.ngaService = require('./nga.service');
+module.exports.nhanSuService = require('./nhan-su.service');
+module.exports.baiTap1Service = require('./bai-tap-1.service');

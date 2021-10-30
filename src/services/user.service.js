@@ -23,8 +23,8 @@ const createUser = async (userBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryUsers = async (filter, options) => {
-  const users = await User.paginate(filter, options);
+const queryUsers = async () => {
+  const users = await User.find();
   return users;
 };
 

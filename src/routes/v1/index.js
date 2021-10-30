@@ -6,6 +6,12 @@ const config = require('../../config/config');
 
 const phuongRoute = require('./phuong.route');
 
+const blogRoute = require('./blog.route');
+
+const ngaRoute = require('./nga.route');
+const baiTap1Route = require('./bai-tap-1.router');
+const nhanSuRoute = require('./nhan-su.route');
+
 const router = express.Router();
 
 const defaultRoutes = [
@@ -20,6 +26,22 @@ const defaultRoutes = [
   {
     path: '/phuongs',
     route: phuongRoute,
+  },
+  {
+    path: '/abd',
+    route: blogRoute,
+  },
+  {
+    path: '/nga',
+    route: ngaRoute,
+  },
+  {
+    path: '/nhansu',
+    route: nhanSuRoute,
+  },
+  {
+    path: '/baitap1',
+    route: baiTap1Route,
   },
 ];
 
