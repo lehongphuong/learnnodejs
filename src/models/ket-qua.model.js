@@ -4,11 +4,11 @@ const { toJSON, paginate } = require('./plugins');
 const ketQuaSchema = mongoose.Schema(
   {
     maSV: {
-      type: mongoose.SchemaType.ObjectId,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'SinhVien',
     },
     maMH: {
-      type: mongoose.SchemaType.ObjectId,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'MonHoc',
     },
     diemThi: {

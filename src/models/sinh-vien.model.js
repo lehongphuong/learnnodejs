@@ -21,7 +21,7 @@ const sinhVienSchema = mongoose.Schema(
       required: true,
     },
     maLop: {
-      type: mongoose.SchemaType.ObjectId,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'Lop',
     },
     hocBong: {

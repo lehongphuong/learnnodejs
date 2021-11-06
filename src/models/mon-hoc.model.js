@@ -3,7 +3,7 @@ const { toJSON, paginate } = require('./plugins');
 
 const monHocSchema = mongoose.Schema(
   {
-    tenMonHoc: {
+    tenMH: {
       type: String,
       trim: true,
       required: true,

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const lopSchema = mongoose.Schema(
+const khoaSchema = mongoose.Schema(
   {
     tenKhoa: {
       type: String,
@@ -19,12 +19,12 @@ const lopSchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-lopSchema.plugin(toJSON);
-lopSchema.plugin(paginate);
+khoaSchema.plugin(toJSON);
+khoaSchema.plugin(paginate);
 
 /**
- * @typedef Lop
+ * @typedef Khoa
  */
-const Lop = mongoose.model('Lop', lopSchema);
+const Khoa = mongoose.model('Khoa', khoaSchema);
 
-module.exports = Lop;
+module.exports = Khoa;

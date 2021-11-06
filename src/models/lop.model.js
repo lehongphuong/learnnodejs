@@ -9,7 +9,7 @@ const lopSchema = mongoose.Schema(
       required: true,
     },
     maKhoa: {
-      type: mongoose.SchemaType.ObjectId,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'Khoa',
     },
   },
