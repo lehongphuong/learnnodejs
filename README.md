@@ -1,10 +1,13 @@
 # Cho lược đồ CSDL quản lý điểm sinh viên, gồm các lược đồ quan hệ sau:
 
-
 SinhVien(MaSV, HoTen, Nu, NgaySinh, MaLop, HocBong, Tinh)
+
 Lop(MaLop, TenLop, MaKhoa)
+
 Khoa(MaKhoa, TenKhoa, SoCBGD)
+
 MonHoc(MaMH, TenMH, SoTiet)
+
 KetQua(MaSV, MaMH, DiemThi)
 
 ## Viết các api sau với NodeJS
