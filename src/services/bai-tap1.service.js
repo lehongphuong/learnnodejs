@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const { Lop, SinhVien, Khoa, MonHoc, KetQua } = require('../models');
 
 /**
@@ -113,30 +114,30 @@ const cau11 = async () => {
  * @returns
  */
 const cau12 = async () => {
-  // const results = await SinhVien.find({ hocBong: { $gt: 0 }, 'maLop.tenLop.tenKhoa': 'Công Nghệ Thông Tin' })
-  // const results = await SinhVien.find({ hocBong: { $gt: 0 }, 'maLop.tenLop': 'NN19A1N' })
-  //   .populate({
-  //     path: 'maLop',
-  //     select: 'tenLop maKhoa',
-  //     populate: {
-  //       path: 'maKhoa',
-  //       select: 'tenKhoa',
-  //     },
-  //   })
-  //   .select('id hoTen hocBong');
   const results = await SinhVien.aggregate([
     {
       $lookup: {
         from: Lop.collection.name,
         localField: 'maLop',
         foreignField: '_id',
-        as: 'phuong',
+        as: 'lop',
       },
     },
     {
-      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$phuong', 0] }, '$$ROOT'] } },
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
     },
-    { $project: { phuong: 0 } },
+    { $project: { lop: 0 } },
+    {
+      $match: {
+        $and: [{ hocBong: { $gt: 0 } }, { maKhoa: mongoose.Types.ObjectId('61862d55a941e609e8fd4cdb') }],
+      },
+    },
+    {
+      $project: { _id: 1, hoTen: 1, hocBong: 1, tenLop: 1 },
+    },
+    {
+      $sort: { hocBong: 1 },
+    },
   ]);
   return results;
 };
