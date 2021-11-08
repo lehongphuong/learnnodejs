@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { Lop, SinhVien, Khoa, MonHoc, KetQua } = require('../models');
+const { Lop, SinhVien, Khoa, KetQua } = require('../models');
 
 /**
  * cau1
@@ -135,8 +135,420 @@ const cau12 = async () => {
     {
       $project: { _id: 1, hoTen: 1, hocBong: 1, tenLop: 1 },
     },
+  ]);
+  return results;
+};
+
+/**
+ * cau13
+ * @returns
+ */
+const cau13 = async () => {
+  const results = await SinhVien.aggregate([
     {
-      $sort: { hocBong: 1 },
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    { $project: { lop: 0 } },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    { $project: { khoa: 0 } },
+    {
+      $match: {
+        $and: [{ hocBong: { $gt: 0 } }, { maKhoa: mongoose.Types.ObjectId('61862d55a941e609e8fd4cdb') }],
+      },
+    },
+    {
+      $project: { _id: 1, hoTen: 1, hocBong: 1, tenLop: 1, tenKhoa: 1 },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau14
+ * @returns
+ */
+const cau14 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $group: { _id: '$maLop', SLSinhVien: { $sum: 1 } },
+    },
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: '_id',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $project: { _id: 1, tenLop: 1, SLSinhVien: 1 },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau15
+ * @returns
+ */
+const cau15 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maKhoa', tenKhoa: { $first: '$tenKhoa' }, SLSinhVien: { $sum: 1 } },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau16
+ * @returns
+ */
+const cau16 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $match: { nu: 'Yes' },
+    },
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maKhoa', tenKhoa: { $first: '$tenKhoa' }, SLSinhVien: { $sum: 1 } },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau17
+ * @returns
+ */
+const cau17 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenLop: { $first: '$tenLop' }, tongHB: { $sum: '$hocBong' } },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau18
+ * @returns
+ */
+const cau18 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenKhoa: { $first: '$tenKhoa' }, tongHB: { $sum: '$hocBong' } },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau19
+ * @returns
+ */
+const cau19 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenKhoa: { $first: '$tenKhoa' }, SLSinhVien: { $sum: 1 } },
+    },
+    {
+      $match: {
+        SLSinhVien: { $gt: 100 },
+      },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau20
+ * @returns
+ */
+const cau20 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $match: { nu: 'Yes' },
+    },
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenKhoa: { $first: '$tenKhoa' }, SLSinhVien: { $sum: 1 } },
+    },
+    {
+      $match: {
+        SLSinhVien: { $gte: 50 },
+      },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau21
+ * @returns
+ */
+const cau21 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenKhoa: { $first: '$tenKhoa' }, tongHB: { $sum: '$hocBong' } },
+    },
+    {
+      $match: { tongHB: { $gte: 1000000 } },
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau22
+ * @returns
+ */
+const cau22 = async () => {
+  const results = await SinhVien.find().sort({ hocBong: -1 }).limit(1);
+  return results;
+};
+
+/**
+ * cau23
+ * @returns
+ */
+const cau23 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: KetQua.collection.name,
+        localField: '_id',
+        foreignField: 'maSV',
+        as: 'ketQua',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$ketQua', 0] }, '$$ROOT'] } },
+    },
+    {
+      $project: { ketQua: 0 },
+    },
+    {
+      $match: { maMH: mongoose.Types.ObjectId('61862d09a941e609e8fd4cd3') },
+    },
+    {
+      $sort: { diemThi: -1 },
+    },
+    {
+      $limit: 1,
+    },
+  ]);
+  return results;
+};
+
+/**
+ * cau24
+ * @returns
+ */
+const cau24 = async () => {
+  const ketQuaResult = await KetQua.find({ maMH: mongoose.Types.ObjectId('61862d09a941e609e8fd4cd3') }).select('maSV');
+  const results = await SinhVien.find({ _id: { $nin: ketQuaResult.map((x) => x.maSV) } });
+  return results;
+};
+
+/**
+ * cau25
+ * @returns
+ */
+const cau25 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    },
+    {
+      $lookup: {
+        from: Khoa.collection.name,
+        localField: 'maKhoa',
+        foreignField: '_id',
+        as: 'khoa',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$khoa', 0] }, '$$ROOT'] } },
+    },
+    {
+      $group: { _id: '$maLop', tenKhoa: { $first: '$tenKhoa' }, SoLuongSV: { $sum: 1 } },
+    },
+    {
+      $sort: { SoLuongSV: -1 },
+    },
+    {
+      $limit: 1,
     },
   ]);
   return results;
@@ -155,4 +567,17 @@ module.exports = {
   cau10,
   cau11,
   cau12,
+  cau13,
+  cau14,
+  cau15,
+  cau16,
+  cau17,
+  cau18,
+  cau19,
+  cau20,
+  cau21,
+  cau22,
+  cau23,
+  cau24,
+  cau25,
 };
