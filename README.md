@@ -1,5 +1,4 @@
 # Cho lược đồ CSDL quản lý điểm sinh viên, gồm các lược đồ quan hệ sau:
-
 SinhVien(MaSV, HoTen, Nu, NgaySinh, MaLop, HocBong, Tinh)
 
 Lop(MaLop, TenLop, MaKhoa)
@@ -9,6 +8,9 @@ Khoa(MaKhoa, TenKhoa, SoCBGD)
 MonHoc(MaMH, TenMH, SoTiet)
 
 KetQua(MaSV, MaMH, DiemThi)
+
+## Post man api
+Import: https://www.getpostman.com/collections/b504ffce12d8b415d2f4
 
 ## Viết các api sau với NodeJS
 Câu 1: Liệt kê danh sách các lớp của khoa, thông tin cần Malop, TenLop, MaKhoa
