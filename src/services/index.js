@@ -10,3 +10,4 @@ module.exports.monHocService = require('./mon-hoc.service');
 module.exports.ketQuaService = require('./ket-qua.service');
 
 module.exports.baiTap1Service = require('./bai-tap1.service');
+module.exports.baiTap2Service = require('./bai-tap2.service');

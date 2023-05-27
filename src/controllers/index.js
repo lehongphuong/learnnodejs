@@ -7,3 +7,4 @@ module.exports.monHocController = require('./mon-hoc.controller');
 module.exports.ketQuaController = require('./ket-qua.controller');
 
 module.exports.baiTap1Controller = require('./bai-tap1.controller');
+module.exports.baiTap2Controller = require('./bai-tap2.controller');

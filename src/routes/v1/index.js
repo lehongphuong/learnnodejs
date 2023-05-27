@@ -10,6 +10,7 @@ const khoaRoute = require('./khoa.route');
 const ketQuaRoute = require('./ket-qua.route');
 const monHocRoute = require('./mon-hoc.route');
 const baiTap1Route = require('./bai-tap1.route');
+const baiTap2Route = require('./bai-tap2.route');
 
 const router = express.Router();
 
@@ -45,6 +46,10 @@ const defaultRoutes = [
   {
     path: '/bai-tap1',
     route: baiTap1Route,
+  },
+  {
+    path: '/bai-tap2',
+    route: baiTap2Route,
   },
 ];
 

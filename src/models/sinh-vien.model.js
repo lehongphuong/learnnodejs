@@ -6,8 +6,8 @@ const sinhVienSchema = mongoose.Schema(
     hoTen: {
       type: String,
       trim: true,
-      minLength: 5,
-      maxLength: 30,
+      minLength: 3,
+      maxLength: 50,
       required: true,
     },
     nu: {
@@ -36,7 +36,7 @@ const sinhVienSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-);
+); 
 
 // add plugin that converts mongoose to json
 sinhVienSchema.plugin(toJSON);
