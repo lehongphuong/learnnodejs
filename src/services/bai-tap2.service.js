@@ -90,6 +90,36 @@ const cau8 = async () => {
   return results;
 };
 
+/**
+ * cau12
+ * @returns
+ */
+const cau12 = async () => {
+  const results = await SinhVien.aggregate([
+    {
+      $lookup: {
+        from: Lop.collection.name,
+        localField: 'maLop',
+        foreignField: '_id',
+        as: 'lop',
+      },
+    },
+    {
+      $replaceRoot: { newRoot: { $mergeObjects: [{ $arrayElemAt: ['$lop', 0] }, '$$ROOT'] } },
+    }, 
+    { $project: { lop: 0 } },
+    {
+      $match: {
+        $and: [{ hocBong: { $gt: 0 } }, { maKhoa: mongoose.Types.ObjectId('646841f628f9f26723c10937') }],
+      },
+    },
+    {
+      $project: { _id: 1, hoTen: 1, hocBong: 1, tenLop: 1 },
+    },
+  ]);
+  return results;
+};
+
 module.exports = {
   cau1,
   cau2,
@@ -102,7 +132,7 @@ module.exports = {
   // cau9,
   // cau10,
   // cau11,
-  // cau12,
+  cau12,
   // cau13,
   // cau14,
   // cau15,

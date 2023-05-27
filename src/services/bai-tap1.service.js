@@ -103,7 +103,12 @@ const cau10 = async () => {
  * @returns
  */
 const cau11 = async () => {
-  const results = await KetQua.find({ diemThi: { $gte: 8 } })
+  const results = await KetQua.find({
+    $and: [
+      { diemThi: { $gte: 8 } },
+      { maMH: mongoose.Types.ObjectId('61862d55a941e609e8fd4cdb') }
+    ]
+  })
     .populate({ path: 'maSV', select: 'hoTen nu ngaySinh maLop hocBong tinh id' })
     .select('maSV');
   return results.map((item) => item.maSV);
